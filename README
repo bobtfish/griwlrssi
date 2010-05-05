@@ -1,0 +1,25 @@
+griwlrssi
+---------
+
+A stupid, no-brainer, unconfigurable growl notifier for irssi->screen->ssh
+
+Features : none, apart from being very small and thus very hackable
+
+Requires : no cpan module ; the growlnotify utility
+
+Installation :
+
+1. put griwlrssid somewhere on the OS X box from where you access irssi
+   through ssh, executable bit being set
+2. eventually edit it so it finds the path to growlnotify (the command-line
+   utility that comes with growl, but should be installed separately)
+3. put griwlrssid.plist in ~/Library/LaunchAgents, and edit it so it
+   has the correct path to wherever you put griwlrssid. You might have to
+   use launchctl(1) to start it, or just log out and log in.
+4. put griwlrssi.pl in ~/.irssi/scripts on the irssi host, and load it
+   with the "/script load" command
+5. connect to the host with "ssh -R 9942:localhost:9942 hostname"
+   or put "RemoteForward 9942 localhost:9942" in your .ssh/config file.
+   If you don't like the port number 9942, replace it by another one more
+   to your liking in griwlrssi.pl and in griwlrssid.
+6. enjoy being notified

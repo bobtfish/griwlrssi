@@ -1,0 +1,24 @@
+#!/usr/bin/perl
+# A minimal daemon that forwards what it gets on a socket to growl
+
+use strict;
+use IO::Socket;
+
+my $port = 9942;
+my $notify = "$ENV{HOME}/bin/growlnotify";
+
+my $socket = IO::Socket::INET->new(
+    LocalHost => 'localhost',
+    LocalPort => $port,
+    Proto => 'tcp',
+    Listen => 5,
+);
+$socket or die "Couldn't create socket: $!\n";
+
+while (my $accept = $socket->accept) {
+    chomp( my $title = <$accept> );
+    chomp( my $message = join "", <$accept> );
+    system $notify, "-m", $message, $title;
+}
+
+END { close $socket }
